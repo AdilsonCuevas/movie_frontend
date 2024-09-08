@@ -2,17 +2,24 @@ import Cookies from "js-cookie";
 
 export async function createUsers(userData: any){
     const tokens = Cookies.get("authTokens");
-    const parsedTokens = JSON.parse(tokens);
+    
+    if (tokens) {
+        const parsedTokens = JSON.parse(tokens);
 
-    const res = await fetch('http://localhost:4000/api/users', {
-        method:'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${parsedTokens.accessToken}`,
-        },
-        body: JSON.stringify(userData),
-    })
-    return await res.json();
+        const res = await fetch('http://localhost:4000/api/users', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${parsedTokens.accessToken}`, // Ajusta esto según cómo manejes los tokens
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        const data = await res.json();
+        return data;
+    } else {
+        throw new Error("No se encontraron tokens de autenticación.");
+    }
 }
 
 export async function getUsers() {
@@ -31,31 +38,43 @@ export async function getUser(id: string) {
 
 export async function deleteUser(id: string) {
     const tokens = Cookies.get("authTokens");
-    const parsedTokens = JSON.parse(tokens);
+    
+    if (tokens) {
+        const parsedTokens = JSON.parse(tokens);
 
-    const res = await fetch(`http://localhost:4000/api/users/${id}`, {
-        method:'DELETE',
-        headers: {
-            Authorization: `Bearer ${parsedTokens.accessToken}`,
-        },
-    });
-    return await res.json();
+        const res = await fetch(`http://localhost:4000/api/users/${id}`, {
+            method:'DELETE',
+            headers: {
+                Authorization: `Bearer ${parsedTokens.accessToken}`,
+            },
+        });
+        return await res.json();
+
+    } else {
+        throw new Error("No se encontraron tokens de autenticación.");
+    }
 }
 
 export async function updateUser(id:string, userData: any){
     const tokens = Cookies.get("authTokens");
-    const parsedTokens = JSON.parse(tokens);
+    
+    if (tokens) {
+        const parsedTokens = JSON.parse(tokens);
 
-    const res = await fetch(`http://localhost:4000/api/users/${id}`, {
-        method:'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${parsedTokens.accessToken}`,
-        },
-        body: JSON.stringify(userData),
-        cache: "no-store",
-    })
-    return await res.json()
+        const res = await fetch(`http://localhost:4000/api/users/${id}`, {
+            method:'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${parsedTokens.accessToken}`,
+            },
+            body: JSON.stringify(userData),
+            cache: "no-store",
+        })
+        return await res.json()
+
+    } else {
+        throw new Error("No se encontraron tokens de autenticación.");
+    }
 }
 
 export async  function loginApi(data: any) {
