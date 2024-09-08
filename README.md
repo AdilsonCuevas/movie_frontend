@@ -14,6 +14,19 @@ pnpm dev
 bun dev
 ```
 
+## librerias utilizadas
+```bash
+# manejo de cookies para la autenticacion de usuarios mediante el contexto de react
+$ npm i js-cookie
+
+# manejo de formularios para sus validaciones y envios
+$ npm i react-hook-form
+
+#componentes adicionales de un tercero
+$ npx shadcn@latest add table label input button
+
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
